@@ -1,10 +1,177 @@
-
-# Maven
+# ============================================
+# 编译输出 / 构建产物
+# ============================================
 target/
-*.iml
+build/
+dist/
+out/
+bin/
+obj/
 
-# IntelliJ IDEA
+# ============================================
+# 依赖目录
+# ============================================
+node_modules/
+vendor/
+.jspm_packages/
+bower_components/
+
+# ============================================
+# IDE 配置文件
+# ============================================
+
+### IntelliJ IDEA ###
 .idea/
-*.iws
 *.iml
+*.iws
 *.ipr
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+### Eclipse / STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+### VS Code ###
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+### Vim ###
+*.swp
+*.swo
+*~
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/nbdist/
+/.nb-gradle/
+
+# ============================================
+# 操作系统文件
+# ============================================
+
+### macOS ###
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+### Windows ###
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+### Linux ###
+*~
+
+# ============================================
+# 日志文件
+# ============================================
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ============================================
+# 环境变量 / 敏感配置
+# ============================================
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.cert
+secrets/
+
+# ============================================
+# 临时文件
+# ============================================
+*.tmp
+*.temp
+*.bak
+*.cache
+tmp/
+temp/
+
+# ============================================
+# 打包 / 压缩文件
+# ============================================
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# ============================================
+# 测试与覆盖率
+# ============================================
+coverage/
+.pytest_cache/
+.coverage
+*.lcov
+
+# ============================================
+# 语言特定
+# ============================================
+
+### Java / Maven ###
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### Python ###
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+.eggs/
+venv/
+env/
+*.env
+
+### Node.js ###
+.pnp/
+.pnp.js
+
+### Go ###
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+### C/C++ ###
+*.o
+*.obj
+*.a
+*.lib
+
+# ============================================
+# 文档 / 非代码资源（按需启用）
+# ============================================
+# *.md
+# *.pdf
+# docs/_build/
+
+# ============================================
+# 其他
+# ============================================
+*.min.js
+*.min.css
