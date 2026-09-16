@@ -2,6 +2,7 @@ package net.spfwork.forum.service;
 
 import net.spfwork.forum.domain.Reply;
 import net.spfwork.forum.domain.Topic;
+import net.spfwork.forum.domain.User;
 import net.spfwork.forum.dto.PageDTO;
 
 import java.util.List;
@@ -14,5 +15,6 @@ public interface TopicService {
     PageDTO<Reply> findReplyPageByTopicId(int topicId, int page, int pageSize);
 
 
+    int addTopic(User loginUser, String title, String content, int cId);
 
 }

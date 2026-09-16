@@ -4,6 +4,7 @@ import net.spfwork.forum.dao.ReplyDao;
 import net.spfwork.forum.dao.TopicDao;
 import net.spfwork.forum.domain.Reply;
 import net.spfwork.forum.domain.Topic;
+import net.spfwork.forum.domain.User;
 import net.spfwork.forum.dto.PageDTO;
 import net.spfwork.forum.service.TopicService;
 
@@ -72,5 +73,10 @@ public class TopicServiceImpl implements TopicService {
         // 设置回复列表到分页对象
         pageDTO.setList(list);
         return pageDTO;
+    }
+
+    @Override
+    public int addTopic(User loginUser, String title, String content, int cId) {
+        topicDao.addTopic(loginUser, title, content, cId);
     }
 }

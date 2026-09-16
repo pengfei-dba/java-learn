@@ -1,6 +1,7 @@
 package net.spfwork.forum.dao;
 
 import net.spfwork.forum.domain.Topic;
+import net.spfwork.forum.domain.User;
 import net.spfwork.forum.util.DataSourceUtils;
 import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -52,5 +53,7 @@ public class TopicDao {
     }
 
 
+    public int addTopic(User loginUser, String title, String content, int cId) {
 
+    }
 }

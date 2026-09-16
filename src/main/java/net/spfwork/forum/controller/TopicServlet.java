@@ -2,6 +2,7 @@ package net.spfwork.forum.controller;
 
 import net.spfwork.forum.domain.Reply;
 import net.spfwork.forum.domain.Topic;
+import net.spfwork.forum.domain.User;
 import net.spfwork.forum.dto.PageDTO;
 import net.spfwork.forum.service.TopicService;
 import net.spfwork.forum.service.impl.TopicServiceImpl;
@@ -77,6 +78,23 @@ public class TopicServlet extends BaseServlet{
         request.setAttribute("topic" ,topic);
         // 将回复分页数据存入请求属性中，供JSP页面使用
         request.setAttribute("ReplyPage",pageDTO);
+    }
+    public int addTopic(HttpServletRequest request, HttpServletResponse httpServletResponse){
+        User loginUser=(User)request.getSession().getAttribute("loginUser");
+        if (loginUser!=null){
+            String title=request.getParameter("title");
+            String content=request.getParameter("content");
+            int cId =Integer.parseInt(request.getParameter("c_id"));
+            int rows=topicService.addTopic(loginUser,title,content,cId);
+            if (rows>0){
+                request.setAttribute("mes","发布成功");
+            }else {
+                request.setAttribute("mes","发布失败");
+            }
+        }else {
+            request.setAttribute("mes","请登录");
+        }
+
     }
 
 }
