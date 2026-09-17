@@ -2,6 +2,7 @@ package net.spfwork.forum.dao;
 
 import net.spfwork.forum.domain.Category;
 import org.apache.commons.dbutils.*;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import net.spfwork.forum.util.DataSourceUtils;
 
@@ -36,5 +37,16 @@ public class CategoryDao {
             // 捕获异常并转换为运行时异常抛出
             throw new RuntimeException(e);
         }
+    }
+
+    public Category findById(int id){
+        String sql="select * from category where id=?";
+        Category category=null;
+        try{
+            category=queryRunner.query(sql,new BeanHandler<>(Category.class,processor),id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return category;
     }
 }

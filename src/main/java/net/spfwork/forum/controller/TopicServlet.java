@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * TopicServlet类 - 处理与主题相关的HTTP请求
@@ -64,6 +65,19 @@ public class TopicServlet extends BaseServlet{
         int pageNumber=1;
         // 获取当前页码参数
         String currentPage=request.getParameter("page");
+        //处理浏览量，如果同个session内只算一次
+        String sessionReadKey = "is_read_"+topicId;
+
+        Boolean isRead = (Boolean) request.getSession().getAttribute(sessionReadKey);
+
+        if(isRead == null){
+            request.getSession().setAttribute(sessionReadKey,true);
+            //新增一个pv
+            topicService.addOnePV(topicId);
+        }
+
+
+
 
         // 如果当前页码参数不为空，则转换为整数
         if (currentPage!=null && currentPage!=""){
@@ -79,8 +93,8 @@ public class TopicServlet extends BaseServlet{
         // 将回复分页数据存入请求属性中，供JSP页面使用
         request.setAttribute("ReplyPage",pageDTO);
     }
-    public int addTopic(HttpServletRequest request, HttpServletResponse httpServletResponse){
-        User loginUser=(User)request.getSession().getAttribute("loginUser");
+    public void addTopic(HttpServletRequest request, HttpServletResponse httpServletResponse){
+        User loginUser=(User)request.getSession().getAttribute("User");
         if (loginUser!=null){
             String title=request.getParameter("title");
             String content=request.getParameter("content");
@@ -95,6 +109,21 @@ public class TopicServlet extends BaseServlet{
             request.setAttribute("mes","请登录");
         }
 
+
+    }
+
+    public void ReplyByTopicId(HttpServletRequest request, HttpServletResponse httpServletResponse) throws SQLException {
+        User loginUser=(User)request.getSession().getAttribute("User");
+        if (loginUser!=null){
+            int topicId=Integer.parseInt(request.getParameter("topic_id"));
+            String content = request.getParameter("content");
+            int rows=topicService.ReplyByTopicId(loginUser,topicId,content);
+            if (rows>0){
+                request.setAttribute("mes","回复成功");
+            }else {
+                request.setAttribute("mes","回复失败");
+            }
+        }
     }
 
 }

@@ -1,5 +1,7 @@
 package net.spfwork.forum.domain;
 
+import java.time.LocalDateTime;
+
 /*CREATE TABLE `reply` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `topic_id` int(11) DEFAULT NULL,
@@ -22,8 +24,8 @@ public class Reply {
     private int userId;
     private String username;
     private String userImg;
-    private String createTime;
-    private String updateTime;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
     private int delete;
 
     public int getId() {
@@ -82,21 +84,23 @@ public class Reply {
         this.userImg = userImg;
     }
 
-    public String getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public String getUpdateTime() {
+    public LocalDateTime getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
+
+
 
     public int getDelete() {
         return delete;

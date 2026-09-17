@@ -5,6 +5,7 @@ import net.spfwork.forum.domain.Topic;
 import net.spfwork.forum.domain.User;
 import net.spfwork.forum.dto.PageDTO;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface TopicService {
@@ -17,4 +18,7 @@ public interface TopicService {
 
     int addTopic(User loginUser, String title, String content, int cId);
 
+    int ReplyByTopicId(User loginUser, int topicId, String content) throws SQLException;
+
+    void addOnePV(int topicId);
 }

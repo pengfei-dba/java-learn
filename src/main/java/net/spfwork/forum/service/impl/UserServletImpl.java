@@ -17,7 +17,7 @@ public class UserServletImpl implements UserService {
         user.setImg("default.jpg");
         user.setPwd(Md5sumUtils.msgToMD5(user.getPwd()));
         try{
-            userDao.save(user);
+            return userDao.save(user);
         }catch (Exception e){
             e.printStackTrace();
         }

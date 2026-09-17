@@ -1,13 +1,18 @@
 package net.spfwork.forum.service.impl;
 
+import net.spfwork.forum.dao.CategoryDao;
 import net.spfwork.forum.dao.ReplyDao;
 import net.spfwork.forum.dao.TopicDao;
+import net.spfwork.forum.domain.Category;
 import net.spfwork.forum.domain.Reply;
 import net.spfwork.forum.domain.Topic;
 import net.spfwork.forum.domain.User;
 import net.spfwork.forum.dto.PageDTO;
 import net.spfwork.forum.service.TopicService;
 
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -17,9 +22,10 @@ import java.util.List;
 public class TopicServiceImpl implements TopicService {
 
     // 主题数据访问对象
-    TopicDao topicDao=new TopicDao();
+    private TopicDao topicDao=new TopicDao();
     // 回复数据访问对象
-    ReplyDao replyDao=new ReplyDao();
+    private ReplyDao replyDao=new ReplyDao();
+    private CategoryDao categoryDao = new CategoryDao();
     /**
      * 根据主题ID查找主题
      * @param topicId 主题ID
@@ -77,6 +83,48 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public int addTopic(User loginUser, String title, String content, int cId) {
-        topicDao.addTopic(loginUser, title, content, cId);
+        Category category= categoryDao.findById(cId);
+        if (category == null){return  0;}
+        Topic topic =new Topic();
+        topic.setTitle(title);
+        topic.setContent(content);
+        topic.setCreateTime(LocalDateTime.now());
+        topic.setUpdateTime(LocalDateTime.now());
+        topic.setPv(1);
+        topic.setDelete(0);
+        topic.setUserId(loginUser.getId());
+        topic.setUsername(loginUser.getUsername());
+        topic.setUserImg(loginUser.getImg());
+        topic.setcId(cId);
+        topic.setHot(0);
+        int rows=0;
+        try {
+            rows =topicDao.save(topic);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return rows;
+    }
+    @Override
+    public int ReplyByTopicId(User loginUser, int topicId, String content) throws SQLException {
+
+        int floor = topicDao.findLatestFloorByTopicId(topicId);
+        Reply reply = new Reply();
+        reply.setContent(content);
+        reply.setCreateTime(LocalDateTime.now());
+        reply.setUpdateTime(LocalDateTime.now());
+        reply.setFloor(floor+1);
+        reply.setTopicId(topicId);
+        reply.setUserId(loginUser.getId());
+        reply.setUsername(loginUser.getUsername());
+        reply.setUserImg(loginUser.getImg());
+        reply.setDelete(0);
+        return replyDao.save(reply);
+    }
+    @Override
+    public void addOnePV(int topicId) {
+        Topic topic=topicDao.findTopicById(topicId);
+        int newPv = topic.getPv() + 1;
+        topicDao.updatePv(topicId, newPv, topic.getPv());
     }
 }

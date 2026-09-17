@@ -42,7 +42,7 @@ public class TopicDao {
     }
 
     public Topic findTopicById(int topicId){
-        String sql="select * from topic where topic_id=? ";
+        String sql="select * from topic where id=? ";
         Topic topic=null;
         try {
             topic=queryRunner.query(sql,new BeanHandler<>(Topic.class,rowProcessor),topicId);
@@ -53,7 +53,42 @@ public class TopicDao {
     }
 
 
-    public int addTopic(User loginUser, String title, String content, int cId) {
+    public int save(Topic topic) {
+        String sql="insert into topic (id,c_id,title,content,user_id,username,user_img,create_time,update_time,hot,`delete`) values (?,?,?,?,?,?,?,?,?,?,?)";
+        Object [] param={
+                topic.getId(), topic.getcId(),topic.getTitle(),
+                topic.getContent(),topic.getUserId(),topic.getUsername(),
+                topic.getUserImg(),topic.getCreateTime(),topic.getUpdateTime(),topic.getHot(),
+                topic.getDelete()
+        };
+        int rows=0;
+        try {
+            rows=queryRunner.update(sql,param);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return rows;
+    }
 
+    public int findLatestFloorByTopicId(int topicId) {
+        String sql="select max(floor) from reply where topic_id=?";
+        int latestFloor=0;
+        try {
+            latestFloor=(Integer)queryRunner.query(sql,new ScalarHandler(),topicId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return latestFloor;
+    }
+
+
+
+    public void updatePv(int topicId, int newPv, int pv) {
+        String sql="update topic set pv=? where id=? and pv=?";
+        try {
+            queryRunner.update(sql,newPv,topicId,pv);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
