@@ -7,13 +7,13 @@ import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
-
+import net.spfwork.forum.util.LocalDateTimeBeanProcessor;
 import java.util.List;
 
 public class TopicDao {
     private QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
 
-    private BeanProcessor beanProcessor=new GenerousBeanProcessor();
+    private BeanProcessor beanProcessor=new LocalDateTimeBeanProcessor();
     private RowProcessor rowProcessor=new BasicRowProcessor(beanProcessor);
 
     public int countTotalTopicBycId(int cId){
@@ -34,7 +34,7 @@ public class TopicDao {
         List<Topic> topicList=null;
 
         try {
-            topicList= queryRunner.query(sql,new BeanListHandler<>(Topic.class),cId,from,pageSize);
+            topicList= queryRunner.query(sql,new BeanListHandler<>(Topic.class,rowProcessor),cId,from,pageSize);
         }catch (Exception e){
             e.printStackTrace();
         }

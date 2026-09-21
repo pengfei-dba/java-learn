@@ -5,8 +5,10 @@ import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import net.spfwork.forum.util.DataSourceUtils;
+import net.spfwork.forum.util.LocalDateTimeBeanProcessor;
 
 import java.util.List;
+
 
 /**
  * categoryDao类，用于处理分类数据相关的数据库操作
@@ -16,10 +18,8 @@ public class CategoryDao {
     // 初始化QueryRunner对象，使用DataSourceUtils获取数据源
     private QueryRunner queryRunner = new QueryRunner(DataSourceUtils.getDataSource());
 
-    //开启驼峰映射，使数据库字段名与Java对象属性名自动匹配
-    private BeanProcessor beanProcessor = new GenerousBeanProcessor();
-    // 配置RowProcessor，使用自定义的BeanProcessor处理结果集
-    private RowProcessor processor = new BasicRowProcessor(beanProcessor);
+    private BeanProcessor beanProcessor=new LocalDateTimeBeanProcessor();
+    private RowProcessor rowProcessor=new BasicRowProcessor(beanProcessor);
 
 
     /**
@@ -32,7 +32,7 @@ public class CategoryDao {
         String sql="select * from category;";
         try {
             // 执行查询，将结果映射为category对象列表并返回
-            return queryRunner.query(sql,new BeanListHandler<Category>(Category.class));
+            return queryRunner.query(sql,new BeanListHandler<Category>(Category.class,rowProcessor));
         } catch (Exception e) {
             // 捕获异常并转换为运行时异常抛出
             throw new RuntimeException(e);
@@ -43,7 +43,7 @@ public class CategoryDao {
         String sql="select * from category where id=?";
         Category category=null;
         try{
-            category=queryRunner.query(sql,new BeanHandler<>(Category.class,processor),id);
+            category=queryRunner.query(sql,new BeanHandler<>(Category.class,rowProcessor),id);
         }catch (Exception e){
             e.printStackTrace();
         }

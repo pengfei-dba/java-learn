@@ -4,16 +4,15 @@ import net.spfwork.forum.domain.User;
 import net.spfwork.forum.util.DataSourceUtils;
 import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.BeanHandler;
-
+import net.spfwork.forum.util.LocalDateTimeBeanProcessor;
 import java.sql.SQLException;
 
 public class UserDao {
 
     private QueryRunner queryRunner = new QueryRunner(DataSourceUtils.getDataSource());
 
-    //开启驼峰映射
-    private BeanProcessor beanProcessor = new GenerousBeanProcessor();
-    private RowProcessor processor = new BasicRowProcessor(beanProcessor);
+    private BeanProcessor beanProcessor=new LocalDateTimeBeanProcessor();
+    private RowProcessor rowProcessor=new BasicRowProcessor(beanProcessor);
 
 /*    private int id;
     private String phone;
@@ -42,7 +41,7 @@ public class UserDao {
         String sql="select * from user where phone=? and pwd=?";
         User user=null;
         try{
-            user=queryRunner.query(sql,new BeanHandler<>(User.class,processor),phone,pwdMd5);
+            user=queryRunner.query(sql,new BeanHandler<>(User.class,rowProcessor),phone,pwdMd5);
         }catch (Exception e){
             e.printStackTrace();
             throw new RuntimeException(e);

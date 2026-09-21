@@ -22,18 +22,20 @@ public class PageDTO<T> {
      * @param pageSize 每页记录数
      * @param totalRecords 总记录数
      */
+
+    // ... existing code ...
     public PageDTO(int pageNumber,int pageSize,int totalRecords){
         this.pageNumber = pageNumber;
         this.pageSize = pageSize;
         this.totalRecords = totalRecords;
         // 计算总页数
         if (totalRecords%pageSize==0){
-            pageNumber=totalRecords/pageSize;
+            totalPages=totalRecords/pageSize;
         }else{
-         pageNumber=totalRecords/pageSize+1;
-
+            totalPages=totalRecords/pageSize+1;
         }
     }
+// ... existing code ...
 
     // 获取数据列表
     public List<T> getList() {

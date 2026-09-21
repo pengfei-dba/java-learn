@@ -3,7 +3,6 @@ package net.spfwork.forum.service.impl;
 import net.spfwork.forum.dao.CategoryDao;
 import net.spfwork.forum.domain.Category;
 import net.spfwork.forum.service.CategoryService;
-import net.spfwork.forum.service.CategoryService;
 
 import java.util.List;
 

@@ -11,7 +11,6 @@ import net.spfwork.forum.dto.PageDTO;
 import net.spfwork.forum.service.TopicService;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -124,7 +123,12 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public void addOnePV(int topicId) {
         Topic topic=topicDao.findTopicById(topicId);
+        if (topic == null) {
+            return;
+        }
         int newPv = topic.getPv() + 1;
         topicDao.updatePv(topicId, newPv, topic.getPv());
     }
+
+
 }
